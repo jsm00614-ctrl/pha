@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PHA 기반 생분해성 화장품 용기 적용 검토 · 웹 보고</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:    #47804f;
+    --green-d:  #356040;
+    --fresh:    #b0db8c;
+    --cream:    #f0ebe8;
+    --terra:    #c95a32;
+    --gold:     #c79a2b;
+    --ink:      #14110f;
+    --ink-soft: #3a352f;
+    --ink-mute: #6f6a63;
+    --rule:     rgba(20,17,15,.12);
+    --rule-soft:rgba(20,17,15,.07);
+    --paper:    #fdfbf8;
+    --sans: "Noto Sans KR", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --maxw: 1080px;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:72px; }
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  a{ color:inherit; }
+  ::selection{ background:var(--fresh); color:var(--ink); }
+
+  /* labels */
+  .eyebrow{
+    font-size:12px; font-weight:600;
+    letter-spacing:.16em; text-transform:uppercase;
+    color:var(--green);
+    display:inline-flex; align-items:center; gap:9px;
+  }
+  .eyebrow::before{
+    content:""; width:9px; height:9px; background:var(--green);
+    border-radius:1px; flex:none;
+  }
+  .eyebrow.mute{ color:var(--ink-mute); }
+  .eyebrow.mute::before{ background:var(--ink-mute); }
+
+  /* ---------- top nav ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(253,251,248,.86);
+    backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--rule);
+  }
+  .nav-in{
+    max-width:var(--maxw); margin:0 auto;
+    padding:0 28px; height:60px;
+    display:flex; align-items:center; gap:28px;
+  }
+  .brand{
+    font-weight:700; font-size:20px; letter-spacing:-.01em;
+    display:flex; align-items:center; gap:3px;
+  }
+  .brand .dot{ width:6px; height:6px; border-radius:50%; background:var(--green); margin-bottom:-2px; }
+  .nav-sep{ width:1px; height:22px; background:var(--rule); }
+  .nav-doc{ font-size:12.5px; color:var(--ink-mute); font-weight:500; letter-spacing:.01em; }
+  nav.links{ margin-left:auto; display:flex; gap:4px; }
+  nav.links a{
+    font-size:13px; font-weight:500; color:var(--ink-soft);
+    text-decoration:none; padding:7px 12px; border-radius:7px;
+    transition:background .15s, color .15s; white-space:nowrap;
+  }
+  nav.links a:hover{ background:var(--cream); color:var(--ink); }
+  .nav-toggle{ display:none; }
+
+  /* ---------- layout ---------- */
+  section{ scroll-margin-top:72px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+  .band{ padding:88px 0; border-bottom:1px solid var(--rule); }
+  .band.cream{ background:var(--cream); }
+  .band.ink{ background:var(--ink); color:var(--paper); border-bottom:none; }
+  .sec-head{ margin-bottom:44px; max-width:760px; }
+  .sec-head h2{
+    font-size:clamp(28px,4vw,40px); font-weight:700;
+    letter-spacing:-.025em; line-height:1.12; margin:18px 0 0;
+  }
+  .sec-head .accent{ color:var(--green); }
+  .band.ink .sec-head .accent{ color:var(--fresh); }
+  .sec-head p.dek{
+    margin:18px 0 0; font-size:16.5px; line-height:1.65;
+    color:var(--ink-soft); font-weight:400;
+  }
+  .band.ink .sec-head p.dek{ color:rgba(253,251,248,.78); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      radial-gradient(120% 120% at 88% -10%, rgba(176,219,140,.34), transparent 55%),
+      radial-gradient(90% 90% at 100% 110%, rgba(71,128,79,.10), transparent 60%),
+      var(--paper);
+    border-bottom:1px solid var(--rule);
+    overflow:hidden;
+  }
+  .hero-in{ max-width:var(--maxw); margin:0 auto; padding:84px 28px 76px; }
+  .hero h1{
+    font-size:clamp(36px,6.2vw,68px); font-weight:700;
+    letter-spacing:-.035em; line-height:1.04; margin:26px 0 0;
+    max-width:16ch;
+  }
+  .hero h1 .g{ color:var(--green); }
+  .hero p.sub{
+    margin:28px 0 0; font-size:clamp(16px,2vw,19px);
+    line-height:1.6; color:var(--ink-soft); max-width:54ch; font-weight:400;
+  }
+  .hero p.sub b{ color:var(--ink); font-weight:600; }
+  .hero-meta{
+    margin-top:46px; display:flex; flex-wrap:wrap; gap:0;
+    border-top:1px solid var(--rule);
+  }
+  .hero-meta .m{
+    padding:18px 30px 0 0; margin-right:30px;
+    border-right:1px solid var(--rule-soft);
+  }
+  .hero-meta .m:last-child{ border-right:none; }
+  .hero-meta .k{ font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-mute); font-weight:600; }
+  .hero-meta .v{ font-size:16px; font-weight:600; margin-top:5px; letter-spacing:-.01em; }
+  .hero-meta .v small{ display:block; font-size:12.5px; color:var(--ink-mute); font-weight:400; margin-top:2px; }
+
+  /* ---------- decision / ask card ---------- */
+  .ask{
+    background:var(--paper); border:1px solid var(--rule);
+    border-left:5px solid var(--green);
+    border-radius:4px; padding:34px 36px;
+    box-shadow:0 24px 50px -34px rgba(20,17,15,.4);
+  }
+  .ask .lab{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--green); }
+  .ask h3{ font-size:clamp(20px,2.6vw,26px); font-weight:700; letter-spacing:-.02em; line-height:1.32; margin:14px 0 0; }
+  .ask h3 .g{ color:var(--green); }
+  .ask .meta{ display:flex; flex-wrap:wrap; gap:26px; margin-top:22px; padding-top:20px; border-top:1px solid var(--rule); }
+  .ask .meta .i .k{ font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); font-weight:600; }
+  .ask .meta .i .v{ font-size:16px; font-weight:600; margin-top:4px; }
+
+  /* ---------- reason grid ---------- */
+  .why{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:54px; border-top:1px solid var(--rule); }
+  .why .c{ padding:26px 26px 0 0; margin-right:26px; border-right:1px solid var(--rule-soft); }
+  .why .c:last-child{ border-right:none; margin-right:0; }
+  .why .n{ font-size:40px; font-weight:300; color:var(--green); letter-spacing:-.03em; line-height:1; }
+  .why .t{ font-size:18px; font-weight:700; letter-spacing:-.01em; margin-top:14px; }
+  .why .d{ font-size:14.5px; color:var(--ink-soft); margin-top:10px; line-height:1.62; }
+
+  /* ---------- company ---------- */
+  .co{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .co .card{ background:var(--paper); border:1px solid var(--rule); border-radius:5px; padding:30px 30px 32px; }
+  .co .card.dark{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .co .card h3{ font-size:24px; font-weight:700; letter-spacing:-.02em; margin:0; }
+  .co .card .role{ font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-mute); margin-top:8px; font-weight:600; }
+  .co .card.dark .role{ color:rgba(253,251,248,.6); }
+  .co .card p{ font-size:14.5px; line-height:1.66; color:var(--ink-soft); margin:18px 0 0; }
+  .co .card.dark p{ color:rgba(253,251,248,.82); }
+  .co .card p b{ color:var(--ink); font-weight:600; }
+  .co .card.dark p b{ color:var(--paper); }
+  .co .card .accent-g{ color:var(--fresh); font-weight:600; }
+
+  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:24px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+  .stat-row .s{ padding:24px 22px 24px 0; margin-right:22px; border-right:1px solid var(--rule-soft); }
+  .stat-row .s:last-child{ border-right:none; margin-right:0; }
+  .stat-row .num{ font-size:30px; font-weight:700; letter-spacing:-.03em; color:var(--green); line-height:1; }
+  .stat-row .lab{ font-size:13px; font-weight:600; margin-top:10px; }
+  .stat-row .sub{ font-size:12.5px; color:var(--ink-mute); margin-top:4px; line-height:1.45; }
+
+  /* certifications */
+  .certs{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:30px; }
+  .cert{ border:1px solid var(--rule); border-radius:5px; padding:22px 22px 24px; background:var(--paper); }
+  .cert .bdg{
+    width:46px; height:46px; border-radius:50%; background:var(--cream); color:var(--green);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;
+    letter-spacing:.02em; margin-bottom:18px; border:1px solid rgba(71,128,79,.25);
+  }
+  .cert .nm{ font-size:16px; font-weight:700; letter-spacing:-.01em; }
+  .cert .ds{ font-size:13px; color:var(--ink-soft); margin-top:8px; line-height:1.5; }
+  .cert .ds b{ color:var(--ink); }
+
+  /* ---------- review specs ---------- */
+  .rev{ display:grid; grid-template-columns:1.15fr .85fr; gap:42px; }
+  .specs{ border-top:1px solid var(--rule); }
+  .specs .row{ display:grid; grid-template-columns:120px 1fr; gap:20px; padding:18px 0; border-bottom:1px solid var(--rule-soft); }
+  .specs .k{ font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-mute); font-weight:600; padding-top:2px; }
+  .specs .v{ font-size:14.5px; line-height:1.6; color:var(--ink-soft); }
+  .specs .v b{ color:var(--ink); font-weight:600; }
+  .tag{ display:inline-block; background:var(--cream); color:var(--green); font-size:11.5px; font-weight:600; letter-spacing:.02em; padding:2px 9px; border-radius:3px; margin-right:5px; }
+  .points{ display:flex; flex-direction:column; gap:13px; }
+  .point{ background:var(--cream); border-left:3px solid var(--green); border-radius:0 4px 4px 0; padding:18px 20px; }
+  .point .k{ font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--green); }
+  .point .t{ font-size:15px; font-weight:600; line-height:1.45; margin-top:7px; letter-spacing:-.01em; }
+  .point .t .g{ color:var(--green); }
+
+  /* ---------- gov program section ---------- */
+  .gov-flow{
+    display:grid; grid-template-columns:1fr auto 1fr auto 1fr; align-items:stretch; gap:0;
+    margin-bottom:14px;
+  }
+  .gov-node{
+    border:1px solid rgba(253,251,248,.2); border-radius:6px; padding:22px 22px 24px;
+    background:rgba(253,251,248,.04); position:relative;
+  }
+  .gov-node.hl{ border-color:var(--fresh); background:rgba(176,219,140,.1); }
+  .gov-node .role{ font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--fresh); }
+  .gov-node .nm{ font-size:19px; font-weight:700; margin-top:9px; letter-spacing:-.01em; }
+  .gov-node .ds{ font-size:13px; color:rgba(253,251,248,.72); margin-top:9px; line-height:1.55; }
+  .gov-arrow{ display:flex; align-items:center; justify-content:center; padding:0 16px; color:rgba(253,251,248,.5); }
+  .gov-arrow span{ font-size:13px; font-weight:600; letter-spacing:.04em; white-space:nowrap; transform:translateY(-8px); color:rgba(253,251,248,.6); }
+  .gov-arrow .ln{ position:relative; }
+  .gov-flow .gov-arrow{ flex-direction:column; gap:6px; }
+  .gov-flow .gov-arrow .big{ font-size:22px; line-height:1; }
+
+  .gov-types{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:34px; }
+  .gtype{ background:rgba(253,251,248,.05); border:1px solid rgba(253,251,248,.16); border-radius:6px; padding:24px 24px 26px; }
+  .gtype.hl{ border-color:var(--fresh); background:rgba(176,219,140,.12); }
+  .gtype .top{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+  .gtype .nm{ font-size:17px; font-weight:700; letter-spacing:-.01em; }
+  .gtype .pin{ font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); background:var(--fresh); padding:3px 8px; border-radius:20px; }
+  .gtype .amt{ font-size:30px; font-weight:700; color:var(--fresh); letter-spacing:-.03em; margin-top:16px; line-height:1; }
+  .gtype .amt small{ font-size:13px; font-weight:500; color:rgba(253,251,248,.7); margin-left:4px; }
+  .gtype ul{ list-style:none; padding:0; margin:18px 0 0; display:flex; flex-direction:column; gap:9px; }
+  .gtype li{ font-size:13px; color:rgba(253,251,248,.82); line-height:1.5; padding-left:16px; position:relative; }
+  .gtype li::before{ content:""; position:absolute; left:0; top:8px; width:6px; height:6px; border-radius:50%; background:rgba(253,251,248,.45); }
+  .gtype.hl li::before{ background:var(--fresh); }
+
+  .gov-foot{ display:grid; grid-template-columns:1.4fr 1fr; gap:34px; margin-top:40px; padding-top:32px; border-top:1px solid rgba(253,251,248,.18); }
+  .gov-foot .h{ font-size:20px; font-weight:700; letter-spacing:-.015em; line-height:1.4; }
+  .gov-foot .h .g{ color:var(--fresh); }
+  .gov-foot p{ font-size:14px; line-height:1.65; color:rgba(253,251,248,.78); margin:14px 0 0; }
+  .gov-foot .facts{ display:flex; flex-direction:column; gap:0; }
+  .gov-foot .facts .f{ display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid rgba(253,251,248,.14); font-size:13.5px; }
+  .gov-foot .facts .f .k{ color:rgba(253,251,248,.62); }
+  .gov-foot .facts .f .v{ font-weight:600; text-align:right; }
+  .note{ font-size:12px; color:rgba(253,251,248,.5); margin-top:18px; line-height:1.5; }
+
+  /* ---------- vs (expectations / concerns) ---------- */
+  .vs{ display:grid; grid-template-columns:1fr 1fr; gap:0; border-top:1px solid var(--rule); }
+  .vs .col{ padding:26px 0; }
+  .vs .col.neg{ border-left:1px solid var(--rule); padding-left:34px; }
+  .vs .col.pos{ padding-right:34px; }
+  .vs .ch{ display:flex; align-items:center; gap:10px; font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:20px; }
+  .vs .col.pos .ch{ color:var(--green); }
+  .vs .col.neg .ch{ color:var(--terra); }
+  .vs .ch .sq{ width:10px; height:10px; border-radius:2px; }
+  .vs .col.pos .ch .sq{ background:var(--green); }
+  .vs .col.neg .ch .sq{ background:var(--terra); }
+  .vs .ch .n{ margin-left:auto; font-size:22px; font-weight:300; letter-spacing:-.02em; }
+  .vs .it{ padding:14px 0; border-top:1px solid var(--rule-soft); }
+  .vs .it:first-of-type{ border-top:none; }
+  .vs .it .nm{ font-size:15.5px; font-weight:600; letter-spacing:-.01em; line-height:1.4; display:flex; gap:10px; }
+  .vs .it .ix{ font-size:12px; color:var(--ink-mute); font-weight:600; flex:none; padding-top:2px; }
+  .vs .it .d{ font-size:13.5px; color:var(--ink-soft); margin-top:5px; line-height:1.55; padding-left:24px; }
+
+  /* ---------- roadmap ---------- */
+  .road{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; counter-reset:rd; }
+  .rstep{ position:relative; padding-top:30px; border-top:2px solid var(--rule); }
+  .rstep.active{ border-top-color:var(--green); }
+  .rstep::before{
+    content:""; position:absolute; top:-7px; left:0; width:12px; height:12px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--rule);
+  }
+  .rstep.active::before{ border-color:var(--green); background:var(--green); }
+  .rstep .ph{ font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); }
+  .rstep.active .ph{ color:var(--green); }
+  .rstep .ix{ font-size:34px; font-weight:300; color:var(--green); letter-spacing:-.03em; line-height:1; margin-top:4px; }
+  .rstep .nm{ font-size:17px; font-weight:700; letter-spacing:-.01em; margin-top:12px; }
+  .rstep .d{ font-size:13.5px; color:var(--ink-soft); margin-top:10px; line-height:1.6; }
+  .rstep .out{ font-size:12px; color:var(--ink-mute); margin-top:14px; padding-top:12px; border-top:1px dashed var(--rule); }
+  .rstep .out b{ color:var(--green); font-weight:600; }
+
+  /* ---------- closing CTA ---------- */
+  .cta{
+    background:var(--green); color:var(--paper); border-radius:8px;
+    padding:46px 48px; display:grid; grid-template-columns:1.5fr 1fr; gap:36px; align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .cta::after{ content:""; position:absolute; right:-60px; bottom:-80px; width:280px; height:280px; border-radius:50%; background:rgba(176,219,140,.28); }
+  .cta .lab{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(253,251,248,.8); }
+  .cta h3{ font-size:clamp(22px,3vw,30px); font-weight:700; letter-spacing:-.02em; line-height:1.32; margin:14px 0 0; position:relative; z-index:1; }
+  .cta h3 .g{ color:var(--fresh); }
+  .cta .sig{ position:relative; z-index:1; font-size:13.5px; line-height:1.9; color:rgba(253,251,248,.9); }
+  .cta .sig b{ font-weight:700; color:var(--paper); }
+
+  /* ---------- footer ---------- */
+  footer{ background:var(--ink); color:rgba(253,251,248,.6); padding:40px 0; }
+  footer .f-in{ max-width:var(--maxw); margin:0 auto; padding:0 28px; display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; align-items:center; font-size:13px; }
+  footer .brand-f{ color:var(--paper); font-weight:700; font-size:18px; display:flex; align-items:center; gap:3px; }
+  footer .brand-f .dot{ width:5px; height:5px; border-radius:50%; background:var(--fresh); margin-bottom:-2px; }
+
+  /* reveal */
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:880px){
+    .why,.co,.stat-row,.certs,.rev,.gov-types,.vs,.road,.gov-foot,.cta,.gov-flow{ grid-template-columns:1fr; }
+    .why .c,.stat-row .s,.specs .row,.hero-meta .m{ border-right:none; margin-right:0; padding-right:0; }
+    .why .c{ border-bottom:1px solid var(--rule-soft); padding-bottom:22px; margin-bottom:4px; }
+    .vs .col.neg{ border-left:none; padding-left:0; border-top:1px solid var(--rule); }
+    .vs .col.pos{ padding-right:0; }
+    .certs{ grid-template-columns:1fr 1fr; }
+    .gov-flow{ gap:10px; }
+    .gov-arrow{ transform:rotate(90deg); padding:4px 0; }
+    .gov-flow .gov-arrow span{ transform:none; }
+    .cta{ padding:34px 28px; }
+    nav.links{ display:none; }
+    .band{ padding:60px 0; }
+    .hero-in{ padding:56px 24px 52px; }
+  }
+  @media (max-width:520px){
+    .certs{ grid-template-columns:1fr; }
+    .nav-doc{ display:none; }
+  }
+  @media print{ header.nav{ display:none; } .reveal{ opacity:1; transform:none; } }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="nav-in">
+    <span class="brand">SPG<span class="dot"></span></span>
+    <span class="nav-sep"></span>
+    <span class="nav-doc">PHA 생분해성 화장품 용기 검토</span>
+    <nav class="links">
+      <a href="#summary">요약</a>
+      <a href="#company">다시물결</a>
+      <a href="#review">적용 검토</a>
+      <a href="#gov">국가과제</a>
+      <a href="#risk">기대·리스크</a>
+      <a href="#roadmap">로드맵</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-in">
+    <span class="eyebrow">검토 보고 · PHA / Biodegradable</span>
+    <h1>PHA 기반 <span class="g">생분해성 원료</span>의<br/>화장품 용기 적용 검토</h1>
+    <p class="sub">
+      KCL 연계 PHA 컴파운드 전문기업 <b>㈜다시물결(Dasiwave)</b>의 자체 브랜드 <b>REO</b> 적용
+      가능성과, <b>구매조건부 국가과제(구매연계형 R&amp;D)</b> 연계 방안에 대한 1차 검토 보고.
+    </p>
+    <div class="hero-meta">
+      <div class="m"><div class="k">문서</div><div class="v">검토 보고<small>1차 · 의사결정용</small></div></div>
+      <div class="m"><div class="k">소관</div><div class="v">패키징비즈니스팀<small>강정구</small></div></div>
+      <div class="m"><div class="k">대상</div><div class="v">㈜다시물결<small>REO · 국가과제</small></div></div>
+      <div class="m"><div class="k">요청</div><div class="v">미팅 승인<small>2026.06 초·중순</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section id="summary" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Executive Summary</span>
+      <h2>한 줄 결론 — <span class="accent">미팅부터 진행</span>하고,<br/>결과로 과제 참여를 판단</h2>
+      <p class="dek">
+        기존 생분해 포장재 개발의 인증 대응 한계를 보완할 대안으로, ㈜다시물결과의 1차 미팅 및
+        샘플 시사출 테스트를 우선 진행한 뒤, 그 결과에 따라 구매조건부 국가과제 참여 여부를
+        단계적으로 판단할 것을 제안합니다.
+      </p>
+    </div>
+
+    <div class="ask reveal">
+      <span class="lab">▍ 승인 요청 사항</span>
+      <h3>2026년 <span class="g">6월 초·중순</span>, ㈜다시물결 연구팀과의 1차 미팅 진행 및
+        보유 REO 컴파운드 샘플·인증자료 수령에 대한 승인 요청</h3>
+      <div class="meta">
+        <div class="i"><div class="k">주관</div><div class="v">패키징비즈니스팀</div></div>
+        <div class="i"><div class="k">소요 비용</div><div class="v">無 (자체 인력)</div></div>
+        <div class="i"><div class="k">리스크 노출</div><div class="v">낮음</div></div>
+        <div class="i"><div class="k">다음 단계</div><div class="v">샘플 시사출 테스트</div></div>
+      </div>
+    </div>
+
+    <div class="why reveal">
+      <div class="c">
+        <div class="n">01</div>
+        <div class="t">왜 검토하는가</div>
+        <div class="d">기존 개발 원료는 F&amp;B 필름·빨대 등 박형 제품 외 화장품 용기로의 인증·양산 확대가 어려움. PHA 기반 REO는 TÜV Home 등 인증 이력이 있어 대안 가치가 있음.</div>
+      </div>
+      <div class="c">
+        <div class="n">02</div>
+        <div class="t">왜 다시물결인가</div>
+        <div class="d">KCL 추천 / PHA·PLA·PBS·PBAT 기반 컴파운드 브랜드 REO 보유. 국내 최초·유일 해수부 인증부표 등 4건 인증, 컴파운드 DB 10,000+, 특허 8건, 월 150t 자체 양산설비.</div>
+      </div>
+      <div class="c">
+        <div class="n">03</div>
+        <div class="t">왜 지금인가</div>
+        <div class="d">다시물결 SAM에 화장품 용기(1.8조원)가 명시되어 상호 수요가 전략적으로 일치. 구매조건부 R&amp;D로 개발비 부담을 낮추며 친환경 포트폴리오를 조기 확보할 기회.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPANY ============ -->
+<section id="company" class="band cream">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Company Profile · ㈜다시물결</span>
+      <h2>PHA 컴파운드 <span class="accent">전문 기업.</span></h2>
+    </div>
+
+    <div class="co reveal">
+      <div class="card">
+        <h3>㈜다시물결 <span style="color:var(--ink-mute);font-weight:500;font-size:16px;">Dasiwave</span></h3>
+        <div class="role">REO · Engineered Biodegradable Compounds</div>
+        <p><b>PHA, PLA, PBS, PBAT 기반</b> 엔지니어링 바이오플라스틱 컴파운드 자체 브랜드 <b>“REO”</b>를
+          개발·양산. 자체 컴파운딩 기술과 공정 제어 기술을 보유하며, 사출·압출·필라멘트·필름/시트 등
+          다양한 공정에 적용 실증 이력을 보유.</p>
+      </div>
+      <div class="card dark">
+        <h3 style="color:var(--paper);">전략적 Fit <span class="accent-g">Why Now</span></h3>
+        <div class="role">KCL 추천 · 수요 상호 일치</div>
+        <p>다시물결의 <b>SAM에 화장품 용기(1.8조원)가 명시</b>되어 있어, 소재업체 입장에서도 우리가
+          원하는 응용 분야가 전략적으로 일치. 구매조건부 국가과제 구조로 <b>당사 수요 사양</b> 기반
+          전용 소재 개발 추진이 가능.</p>
+      </div>
+    </div>
+
+    <div class="stat-row reveal">
+      <div class="s"><div class="num">10,000+</div><div class="lab">컴파운드 데이터셋</div><div class="sub">첨가제 조합 매트릭스</div></div>
+      <div class="s"><div class="num">8건</div><div class="lab">등록 특허</div><div class="sub">소재·공정 IP</div></div>
+      <div class="s"><div class="num">월 150t</div><div class="lab">자체 양산설비</div><div class="sub">인천 이축 컴파운딩(58mm)</div></div>
+      <div class="s"><div class="num">+30%</div><div class="lab">REO HD110 물성</div><div class="sub">석유계 PP 대비 향상</div></div>
+    </div>
+
+    <div style="margin-top:40px;" class="reveal">
+      <span class="eyebrow mute">보유 인증 이력 · Certifications</span>
+      <div class="certs">
+        <div class="cert">
+          <div class="bdg">TÜV</div>
+          <div class="nm">OK Compost HOME</div>
+          <div class="ds">가정용 퇴비화 생분해. 인증 기준 <b>약 0.98mm 시트</b>.</div>
+        </div>
+        <div class="cert">
+          <div class="bdg">EL724</div>
+          <div class="nm">Marine</div>
+          <div class="ds">해양환경 적합성 환경표지. <b>국내 최초·유일</b>.</div>
+        </div>
+        <div class="cert">
+          <div class="bdg">EL724</div>
+          <div class="nm">Soil</div>
+          <div class="ds">토양환경 적합성 인증. 용기 적용 시 보조 근거.</div>
+        </div>
+        <div class="cert">
+          <div class="bdg">MOF</div>
+          <div class="nm">해수부 인증부표</div>
+          <div class="ds">해양수산부 생분해 부표 등록. <b>국내 최초·유일</b>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REVIEW ============ -->
+<section id="review" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Findings &amp; Constraints</span>
+      <h2>통화 주요 내용과 <span class="accent">핵심 검토 포인트.</span></h2>
+    </div>
+
+    <div class="rev reveal">
+      <div>
+        <span class="eyebrow mute" style="margin-bottom:16px;display:inline-flex;">업체 측 설명 · 1차 통화 기준</span>
+        <div class="specs">
+          <div class="row"><div class="k">현 그레이드</div><div class="v"><span class="tag">REO · OK Compost HOME</span> 인증 이력 보유 그레이드 존재. 다만 <b>화장품 용기 전용 설계 소재는 아님</b>.</div></div>
+          <div class="row"><div class="k">시험 기준</div><div class="v">인증 당시 시트 두께 <b>약 0.98mm</b> 기준. 화장품 용기 두께·구조로 확장 시 별도 검토 필요.</div></div>
+          <div class="row"><div class="k">내구성</div><div class="v">사출 개발 경험상 <b>기본 내구성 확보 가능성은 있음</b>. 양산 사양 기준 검증은 필수.</div></div>
+          <div class="row"><div class="k">내화학성</div><div class="v">화장품 내용물 대비 내화학성은 <b>반드시 별도 테스트 필요</b>. 양산 적합성의 가장 큰 변수.</div></div>
+          <div class="row"><div class="k">Marine 대응</div><div class="v">Marine 인증 목표 소재 개발은 가능. 단 <b>생분해성↑ 시 물성 저하 우려</b>로 양산성 동시 충족 여부 검토 필요.</div></div>
+        </div>
+      </div>
+      <div>
+        <span class="eyebrow mute" style="margin-bottom:16px;display:inline-flex;">핵심 검토 포인트</span>
+        <div class="points">
+          <div class="point"><div class="k">Point 01</div><div class="t">단순 인증 취득이 아닌 <span class="g">화장품 용기 양산</span>까지 가능한 물성·성형성 동시 충족 여부</div></div>
+          <div class="point"><div class="k">Point 02</div><div class="t">현 인증 그레이드를 <span class="g">화장품 용기 사출 두께</span>로 확대했을 때 인증 유지 가능성</div></div>
+          <div class="point"><div class="k">Point 03</div><div class="t">스킨케어·선케어·메이크업 <span class="g">제형별 내화학성</span> 데이터 확보</div></div>
+          <div class="point"><div class="k">Point 04</div><div class="t">기존 사출 금형·공정에 <span class="g">그대로 적용 가능한가</span>, 금형 보정이 필요한가</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GOVERNMENT PROGRAM (NEW core section) ============ -->
+<section id="gov" class="band ink">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" style="color:var(--fresh);">Funded R&amp;D · 핵심 정리</span>
+      <h2>구매조건부 국가과제<br/><span class="accent">(구매연계형 R&amp;D)</span> 란?</h2>
+      <p class="dek">
+        수요처(대기업·중견·공공기관)가 <b style="color:var(--paper);">구매 의사를 밝히고 개발을 제안</b>한 과제를
+        중소기업이 개발하고, 정부가 그 개발비를 지원하는 제도. 개발 단계부터 판로(구매처)가 확보되어
+        있다는 점이 핵심입니다. <b style="color:var(--paper);">당사(SPG)는 수요기업, 다시물결은 개발기업</b> 역할.
+      </p>
+    </div>
+
+    <!-- 3-party flow -->
+    <div class="gov-flow reveal">
+      <div class="gov-node hl">
+        <div class="role">수요기업 (구매처)</div>
+        <div class="nm">SPG</div>
+        <div class="ds">수요 사양 제시 · 구매(협약) 의사 표명 · 개발 결과 구매</div>
+      </div>
+      <div class="gov-arrow"><span>① 수요 제안</span><span class="big">→</span><span>④ 구매</span></div>
+      <div class="gov-node">
+        <div class="role">개발기업 (수행)</div>
+        <div class="nm">㈜다시물결</div>
+        <div class="ds">중소기업 / REO 소재 개발 · 시제품 제작 · 양산화</div>
+      </div>
+      <div class="gov-arrow"><span class="big">↕</span><span>③ 출연금</span></div>
+      <div class="gov-node">
+        <div class="role">정부 (지원)</div>
+        <div class="nm">중기부</div>
+        <div class="ds">개발비 출연(무담보·무이자) · 성공 시 기술료 환수</div>
+      </div>
+    </div>
+
+    <!-- task types -->
+    <div class="gov-types reveal">
+      <div class="gtype hl">
+        <div class="top"><div class="nm">수요조사과제</div><div class="pin">유력안</div></div>
+        <div class="amt">5<small>억원 한도</small></div>
+        <ul>
+          <li>수요처(민간·공공)가 제안한 지정공모형</li>
+          <li>정부출연 <b style="color:#fff;">민간 55% / 공공 75%</b></li>
+          <li>개발기간 <b style="color:#fff;">최대 2년</b></li>
+          <li>수요 사양 반영도가 높아 당사 케이스에 적합</li>
+        </ul>
+      </div>
+      <div class="gtype">
+        <div class="top"><div class="nm">기업제안과제</div></div>
+        <div class="amt">2.5<small>억원 한도</small></div>
+        <ul>
+          <li>중소기업이 제안 + 수요처 <b style="color:#fff;">구매협약 동의서</b></li>
+          <li>정부출연 75% 이내</li>
+          <li>개발기간 최대 1년 (자유응모)</li>
+          <li>소액·단기 검증형. 다시물결 주도 가능</li>
+        </ul>
+      </div>
+      <div class="gtype">
+        <div class="top"><div class="nm">공동투자형</div></div>
+        <div class="amt">5~9<small>억원 한도</small></div>
+        <ul>
+          <li>정부 + 투자기업 매칭 출연</li>
+          <li>수요기업이 개발비 일부 직접 투자</li>
+          <li>전환·고난도 과제(e전환) 시 9억원까지</li>
+          <li>당사 투자 여력 검토 필요</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- recommendation + facts -->
+    <div class="gov-foot reveal">
+      <div>
+        <div class="h">당사 권고 — <span class="g">수요조사과제(민간 수요처) 트랙</span>을 우선 검토</div>
+        <p>
+          SPG가 수요 사양과 구매 의사를 제시하고 다시물결이 개발을 수행하는 구조가 가장 자연스럽습니다.
+          정부출연 55%로 개발비 부담을 낮추면서, 당사 요구 사양 기반의 화장품 용기 전용 소재를 확보할 수
+          있습니다. 단, 시사출·내화학성 결과가 긍정적일 때 본격 추진합니다.
+        </p>
+        <p class="note">
+          ※ 한도·출연율·일정은 2026년 「구매연계·상생협력」(예산 303억원) 기준이며, 세부 공고 시 변경될 수
+          있습니다. 신청·관리: 중소기업 기술개발종합관리시스템(smtech.go.kr) / 대·중소기업·농어업협력재단.
+        </p>
+      </div>
+      <div class="facts">
+        <div class="f"><span class="k">주관부처</span><span class="v">중소벤처기업부</span></div>
+        <div class="f"><span class="k">2026 예산(구매연계·상생협력)</span><span class="v">303억원</span></div>
+        <div class="f"><span class="k">개발기업 자격</span><span class="v">중소기업 (다시물결)</span></div>
+        <div class="f"><span class="k">수요기업 역할</span><span class="v">SPG · 구매(협약)</span></div>
+        <div class="f"><span class="k">개발 성공 후</span><span class="v">일정기간 구매 / 수의계약</span></div>
+        <div class="f"><span class="k">자금 성격</span><span class="v">무담보·무이자 출연</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RISK / EXPECTATIONS ============ -->
+<section id="risk" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Trade-offs</span>
+      <h2>기대 효과와 <span class="accent">검토 필요사항.</span></h2>
+    </div>
+
+    <div class="vs reveal">
+      <div class="col pos">
+        <div class="ch"><span class="sq"></span>기대 효과 <span class="n">04</span></div>
+        <div class="it"><div class="nm"><span class="ix">01</span>인증 대응 한계 보완</div><div class="d">PHA 기반 TÜV Home·해양 인증 이력을 참고할 수 있는 기반 확보.</div></div>
+        <div class="it"><div class="nm"><span class="ix">02</span>화장품 전용 소재 가능성</div><div class="d">F&amp;B·일회용 중심이 아닌 화장품 용기 적용 전제로 소재 설계 단계부터 검토.</div></div>
+        <div class="it"><div class="nm"><span class="ix">03</span>개발비 부담 완화</div><div class="d">구매조건부 R&amp;D 구조 활용 시 개발비 분담 / 중장기 프로젝트화 가능.</div></div>
+        <div class="it"><div class="nm"><span class="ix">04</span>해외 영업 포트폴리오</div><div class="d">유럽·미국 친환경 패키징 제안 시 인증 대응 소재 확보는 영업 활용도가 높음.</div></div>
+      </div>
+      <div class="col neg">
+        <div class="ch"><span class="sq"></span>검토 필요사항 <span class="n">07</span></div>
+        <div class="it"><div class="nm"><span class="ix">01</span>기존 인증 그레이드의 화장품 용기 사출 적합성</div></div>
+        <div class="it"><div class="nm"><span class="ix">02</span>당사·협력사 금형 시사출 가능 여부</div></div>
+        <div class="it"><div class="nm"><span class="ix">03</span>스킨/선/메이크업 제형별 내화학성 결과</div></div>
+        <div class="it"><div class="nm"><span class="ix">04</span>TÜV Home/Marine 인증의 용기 두께 확대 가능성</div></div>
+        <div class="it"><div class="nm"><span class="ix">05</span>국가과제 시 당사 역할·의무·민간부담금</div></div>
+        <div class="it"><div class="nm"><span class="ix">06</span>개발 성공 후 실제 구매/양산 연계 조건</div></div>
+        <div class="it"><div class="nm"><span class="ix">07</span>소재 단가 및 양산 시 원가 경쟁력</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section id="roadmap" class="band cream">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Roadmap &amp; Next Action</span>
+      <h2>단계적 검토 후 <span class="accent">국가과제 판단.</span></h2>
+    </div>
+
+    <div class="road reveal">
+      <div class="rstep active">
+        <div class="ph">Phase 01 · 2026.06 초·중순</div>
+        <div class="ix">01</div>
+        <div class="nm">업체 미팅 진행</div>
+        <div class="d">다시물결 연구팀 ↔ 당사 1차 미팅. 보유 소재·인증·화장품 적용 가능성·국가과제 구조 확인.</div>
+        <div class="out">▍ 산출물 · <b>회사소개서 / 인증서 / 그레이드 자료</b></div>
+      </div>
+      <div class="rstep">
+        <div class="ph">Phase 02 · 06 ~ 07</div>
+        <div class="ix">02</div>
+        <div class="nm">샘플 수령 &amp; 시사출</div>
+        <div class="d">REO 샘플 수령. 협력 사출업체·기존 라인에서 화장품 용기 시사출 가능성 확인.</div>
+        <div class="out">▍ 산출물 · <b>시사출 시편 / 1차 보고</b></div>
+      </div>
+      <div class="rstep">
+        <div class="ph">Phase 03 · 07 ~ 09</div>
+        <div class="ix">03</div>
+        <div class="nm">내용물 적합성 평가</div>
+        <div class="d">스킨케어 우선 → 선/메이크업 확대. 내화학성·내용물 안정성·보관 안정성 검토.</div>
+        <div class="out">▍ 산출물 · <b>제형별 내화학성 리포트</b></div>
+      </div>
+      <div class="rstep">
+        <div class="ph">Phase 04 · 09 ~ Q4</div>
+        <div class="ix">04</div>
+        <div class="nm">국가과제 참여 판단</div>
+        <div class="d">단계 1~3 결과가 긍정적이면 수요조사과제(구매연계형) 연계를 구체 검토·의사결정.</div>
+        <div class="out">▍ 산출물 · <b>과제 참여 결정 / 협약안</b></div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;" class="reveal">
+      <div class="cta">
+        <div>
+          <span class="lab">▍ 결재 / 승인 요청</span>
+          <h3>상기 4단계 중 <span class="g">Stage 01 (다시물결 미팅 진행)</span>에 대한 승인을 요청드립니다.</h3>
+        </div>
+        <div class="sig">
+          보고자 · <b>강정구</b><br/>
+          패키징비즈니스팀<br/>
+          2026.06.01
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-in">
+    <span class="brand-f">SPG<span class="dot"></span></span>
+    <span>PHA 생분해성 화장품 용기 적용 검토 · 1차 보고 · 패키징비즈니스팀 강정구</span>
+    <span>Confidential · Internal Use Only</span>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // active nav highlight
+  const navLinks = [...document.querySelectorAll('nav.links a')];
+  const map = {};
+  navLinks.forEach(a => map[a.getAttribute('href').slice(1)] = a);
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        navLinks.forEach(a => a.style.background = '');
+        const a = map[e.target.id];
+        if (a){ a.style.background = 'var(--cream)'; }
+      }
+    });
+  }, { rootMargin:'-45% 0px -50% 0px' });
+  ['summary','company','review','gov','risk','roadmap'].forEach(id => {
+    const el = document.getElementById(id); if (el) spy.observe(el);
+  });
+</script>
+
+</body>
+</html>
