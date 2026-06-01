@@ -110,13 +110,14 @@
   .hero-in{ max-width:var(--maxw); margin:0 auto; padding:84px 28px 76px; }
   .hero h1{
     font-size:clamp(36px,6.2vw,68px); font-weight:700;
-    letter-spacing:-.035em; line-height:1.04; margin:26px 0 0;
-    max-width:16ch;
+    letter-spacing:-.035em; line-height:1.08; margin:26px 0 0;
+    max-width:22ch; word-break:keep-all;
   }
+  .hero h1 .nowrap{ white-space:nowrap; }
   .hero h1 .g{ color:var(--green); }
   .hero p.sub{
     margin:28px 0 0; font-size:clamp(16px,2vw,19px);
-    line-height:1.6; color:var(--ink-soft); max-width:54ch; font-weight:400;
+    line-height:1.7; color:var(--ink-soft); max-width:68ch; font-weight:400;
   }
   .hero p.sub b{ color:var(--ink); font-weight:600; }
   .hero-meta{
@@ -346,7 +347,7 @@
 <section class="hero">
   <div class="hero-in">
     <span class="eyebrow">검토 보고 · PHA / Biodegradable</span>
-    <h1>PHA 기반 <span class="g">생분해성 원료</span>의<br/>화장품 용기 적용 검토</h1>
+    <h1>PHA 기반 <span class="nowrap"><span class="g">생분해성 원료</span>의</span><br/>화장품 용기 적용 검토</h1>
     <p class="sub">
       KCL 연계 PHA 컴파운드 전문기업 <b>㈜다시물결(Dasiwave)</b>의 자체 브랜드 <b>REO</b> 적용
       가능성과, <b>구매조건부 국가과제(구매연계형 R&amp;D)</b> 연계 방안에 대한 1차 검토 보고.
